@@ -34,7 +34,7 @@ class CategoriesController < ApplicationController
 
 
   def destroy
-    @category=Category.find(params[:id])
+    @category = Category.find(params[:id])
     if @category.destroy
       redirect_to categories_path
     else
