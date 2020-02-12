@@ -1,15 +1,16 @@
 class ArticlesController < ApplicationController
+  before_action :authenticate_user!, except: [:index, :show]
   def index
     @articles = Article.all
   end
   def new
-    @article = Article.new
+    @article = current_user.articles.build
   end
   def show
     @article = Article.find(params[:id])
   end
   def create
-    @article = Article.new
+    @article = current_user.articles.build
     @article.title = params['article']['title']
     @article.body = params['article']['body']
     @article.publish_date = params['article']['publish_date']

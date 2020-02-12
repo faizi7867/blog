@@ -1,15 +1,16 @@
 <h1>Aricle show page</h1>
 
 <%= 'title' %><%= ' - ' %>  <%= @article.title %><br/>
+<%= 'By' %><%= ' - ' %>  <%= @article.user.email %><br/>
 <%= 'body' %><%= ' - ' %>  <%= @article.body %><br/>
 <%= 'publish_date' %><%= ' - ' %>  <%= @article.publish_date %><br/>
 <%= 'feature_image_url' %><%= ' - ' %>  <%= @article.feature_image_url %><br/>
 <%= 'is_published' %><%= ' - ' %>  <%= @article.is_published %><br/>
 <%= 'category' %><%= ' - ' %>  <%= link_to @article.category.name , category_path(@article.category.id) %> <br/>
-
-<%= link_to "Delete", @article , method: :delete, data: { confirm: "sure?" } %>
-
-<%= link_to 'edit', edit_article_path %>
+<% if user_signed_in? && @article.user == current_user %>
+  <%= link_to "Delete", @article , method: :delete, data: { confirm: "sure?" } %>
+  <%= link_to 'edit', edit_article_path %>
+<% end %><br/>
 <%= link_to 'back', articles_path %>
 
 
