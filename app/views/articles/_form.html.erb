@@ -1,0 +1,31 @@
+<%= form_with model: @article do |f| %>
+  
+    <label> Enter your article title </label>
+    <%= f.text_field :title %><br/>
+  
+    <label> Say something about your article </label>
+    <%= f.text_field :body %><br/>
+  
+   
+  
+    <label> Publish date:  </label>
+    <%= f.date_field :publish_date, order: [:day, :month, :year] %><br/>
+  
+    <label> Enter your URL </label>
+    <%= f.file_field :feature_image_url %><br/>
+
+    <label> Is_published </label>
+  
+    <%= f.label :is_published , "True", :value => "true"  %>
+    <%= f.radio_button :is_published , true %>
+    <%= f.label :is_published , "False", :value => "false" %>
+    <%= f.radio_button :is_published , false, :checked => true %><br/>
+
+
+
+    <label> Which category this articles belongs to:  </label>
+    <%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Select Category" %><br/>
+    
+    <%= f.submit %>
+  
+  <% end %>

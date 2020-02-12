@@ -1,0 +1,6 @@
+<h1> category show page</h1>
+<%=  @category.name %> <%= '(' %> <%= link_to @category.articles.count , articles_path  %> <%= ')' %> <br/> 
+<%=  link_to 'back', categories_path %>
+<%=  link_to 'edit', edit_category_path %>
+
+<%= link_to "Delete", @category , method: :delete, data: { confirm: "sure?" } %><br/>

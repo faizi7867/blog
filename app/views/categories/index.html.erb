@@ -1,0 +1,15 @@
+<h1> CATEGORY INDEX PAGE </h1>
+<% @categories.each do |cat| %>
+  <%=  cat.id %> <%= ' - ' %> <%=  cat.name %>  <%= link_to  cat.articles.count , articles_path %>  <br/>
+
+  
+
+  <%= link_to "edit", edit_category_path(cat.id) %>
+  <%= link_to "show", category_path(cat.id) %>
+
+  <%= link_to "Delete", cat , method: :delete, data: { confirm: "sure?" } %><br/>
+
+
+<% end %>  <br/>
+
+<%= link_to "New Category", new_category_path %>

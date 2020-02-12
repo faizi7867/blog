@@ -1,0 +1,13 @@
+<h1>Articles Index page</h1>
+
+<% @articles.each_with_index do |article,index| %>
+    <%= article.id  %> <%= ' - ' %>
+    <%= article.title%> <br/>
+    <%= article.category.name %>
+
+    <%= link_to 'show', article_path(article) %><%= ' - ' %>
+    <%= link_to 'edit', edit_article_path(article) %><br/>
+
+<% end %><br/>
+
+<%= link_to 'New Article',  new_article_path %>
