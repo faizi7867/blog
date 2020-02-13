@@ -24,11 +24,11 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
     @article.title = params['article']['title']
     @article.body = params['article']['body']
     @article.publish_date = params['article']['publish_date']
