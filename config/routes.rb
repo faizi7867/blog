@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :genders
   devise_for :users
   root 'articles#index'
 

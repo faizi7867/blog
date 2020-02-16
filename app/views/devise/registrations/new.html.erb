@@ -2,6 +2,27 @@
 
 <%= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
   <%= render "devise/shared/error_messages", resource: resource %>
+  <div class="field">
+    <%= f.label :username %><br />
+    <%= f.text_field :username, autocomplete: "username" %>
+  </div>
+
+  <div class="field">
+  <%= f.label :mobile %><br />
+  <%= f.text_field :mobile, autocomplete: "mobile" %> 
+ </div>
+ 
+ <div class="field">
+ <%= f.label :gender %><br />
+ <label> Which gender this users belongs to:  </label>
+<%= f.collection_select :gender_id, Gender.all, :id, :name, prompt: "Select Gender" %><br/>
+</div>
+<div class="field">
+<%= f.label :dob %><br />
+<%= f.date_field :dob, autocomplete: "date of birth" %>
+</div>
+
+
 
   <div class="field">
     <%= f.label :email %><br />

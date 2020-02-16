@@ -1,4 +1,5 @@
 class CategoriesController < ApplicationController
+  load_and_authorize_resource
   def index
     @categories = Category.all
   end
@@ -16,11 +17,11 @@ class CategoriesController < ApplicationController
 
 
   def edit
-    @category = Category.find(params[:id])
+    @category = Category.friendly.find(params[:id])
   end
 
   def update
-    @category = Category.find(params[:id])
+    @category = Category.friendly.find(params[:id])
     @category.name = params['category']['name']
     @category.description = params['category']['description']
     if @category.save
@@ -29,12 +30,12 @@ class CategoriesController < ApplicationController
   end
 
   def show
-    @category = Category.find(params[:id])
+    @category = Category.friendly.find(params[:id])
   end
 
 
   def destroy
-    @category = Category.find(params[:id])
+    @category = Category.friendly.find(params[:id])
     if @category.destroy
       redirect_to categories_path
     else
