@@ -1,0 +1,18 @@
+
+<%= form_for @postcomments do |f| %>
+
+
+    <label> about your article </label>
+    <%= f.text_field :body %><br/><br/>
+
+    <%= f.hidden_field :article_id %><br/><br/>
+
+    <%= f.hidden_field :user_id %><br/><br/>
+
+    <%= f.submit %>
+
+<% end %>
+
+
+
+

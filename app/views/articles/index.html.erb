@@ -1,15 +1,20 @@
-<h1>Articles Index page</h1>
-
-<% @articles.each_with_index do |article,index| %>
-    <%= article.id  %> <%= ' - ' %>
-    <%= article.title%> <br/>
-    <%= article.category.name %><br/>
-    <%= link_to 'show', article_path(article) %>
-    <% if user_signed_in? && article.user == current_user %>
-      <%= link_to 'edit', edit_article_path(article) %>
-      <%= link_to "Delete", article , method: :delete, data: { confirm: "sure?" } %><br/>
-    <% end %><br/>  
-
+<h1> <%= "Article's index page" %> </h1>
+<% if user_signed_in?  %>
+<%= link_to 'Add new article', article_new_path %><br/>
 <% end %><br/>
+  <% @articles.each do |article|%>
 
-<%= link_to 'New Article',  new_article_path %>
+    <% if article.is_published %>
+      <%= image_tag(article.feature_image_url.url, style: 'height:110px;width:200px') if article.feature_image_url %><br/>
+      <b> Title: </b>  <%= article.title %><br/>
+      <b> Author: </b><%= article.user.username %><br/>
+      <b> Category: <%= article.category.name %> </b> <br/>
+      <b> Publish Date: </b> <%= article.publish_date %><br/>
+      <%= link_to "Show", article_path(article.id) %><br/>
+      <% if user_signed_in? and (can? :manage, article or current_user.id == article.user_id) %>
+        <%= link_to "edit", article_edit_path(article.id) %>
+        <%= link_to "Delete", article , method: :delete, data: { confirm: "sure?" } %><br/><br/> <br/>
+      <% end %>
+  
+    <% end %>
+  <% end %>

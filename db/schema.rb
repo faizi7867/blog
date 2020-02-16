@@ -10,39 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_13_114527) do
-
-  # These are extensions that must be enabled in order to support this database
-  enable_extension "plpgsql"
+ActiveRecord::Schema.define(version: 2020_02_14_131802) do
 
   create_table "articles", force: :cascade do |t|
     t.string "title"
     t.text "body"
+    t.integer "category_id"
     t.date "publish_date"
     t.string "feature_image_url"
     t.boolean "is_published"
-    t.integer "category_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "user_id"
     t.string "slug"
+    t.integer "user_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
   end
 
   create_table "categories", force: :cascade do |t|
     t.string "name"
     t.text "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "slug"
-    t.index ["slug"], name: "index_categories_on_slug", unique: true
-  end
-
-  create_table "comments", force: :cascade do |t|
-    t.string "title"
-    t.text "body"
-    t.integer "article_id"
-    t.integer "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -58,12 +44,6 @@ ActiveRecord::Schema.define(version: 2020_02_13_114527) do
     t.index ["sluggable_type", "sluggable_id"], name: "index_friendly_id_slugs_on_sluggable_type_and_sluggable_id"
   end
 
-  create_table "genders", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
   create_table "permissions", force: :cascade do |t|
     t.integer "user_id"
     t.integer "role_id"
@@ -71,8 +51,17 @@ ActiveRecord::Schema.define(version: 2020_02_13_114527) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "postcomments", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.integer "article_id"
+    t.integer "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "roles", force: :cascade do |t|
-    t.string "name"
+    t.string "role"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -83,29 +72,16 @@ ActiveRecord::Schema.define(version: 2020_02_13_114527) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at"
-    t.datetime "last_sign_in_at"
-    t.inet "current_sign_in_ip"
-    t.inet "last_sign_in_ip"
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.integer "failed_attempts", default: 0, null: false
-    t.string "unlock_token"
-    t.datetime "locked_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.string "username"
     t.integer "mobile"
-    t.string "gender"
     t.date "dob"
-    t.integer "gender_id"
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "slug"
+    t.string "gender"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["unlock_token"], name: "index_users_on_unlock_token", unique: true
+    t.index ["slug"], name: "index_users_on_slug", unique: true
   end
 
 end

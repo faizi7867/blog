@@ -1,30 +1,112 @@
-<%= form_with model: @article do |f| %>
-  
-    <label> Enter your article title </label>
-    <%= f.text_field :title %><br/>
-  
-    <label> Say something about your article </label>
-    <%= f.text_field :body %><br/>
-  
-   
-  
-    <label> Publish date:  </label>
-    <%= f.date_field :publish_date, order: [:day, :month, :year] %><br/>
-  
-    <label> Enter your URL </label>
-    <%= f.file_field :feature_image_url %><br/>
+<%= form_with model: @article, :html => {:class => "form", :id => "articleForm"} do |f| %>
 
-    <label> Is_published </label>
-    <%= f.label :is_published , "True", :value => "true"  %>
-    <%= f.radio_button :is_published , true %>
-    <%= f.label :is_published , "False", :value => "false" %>
-    <%= f.radio_button :is_published , false, :checked => true %><br/>
+  <% if user_signed_in? %>
+  
+  <label for="article_title"> article title </label>
+  <%= f.text_field :title %><span id="titleError"></span><br/><br/>
+
+  <label for="article_body">Describe your article </label>
+  <%= f.text_area :body %> <span id="bodyError"></span><br/><br/>
+
+  <label for="article_category_id"> Genre:  </label>
+  <%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Select Genre" %><span id="categoryError"></span><br/><br/>
+
+  <label for="article_publish_date" > Publish date:  </label>
+  <%= f.date_field :publish_date, order: [:day, :month, :year] %> <span id="dateError"></span> <br/><br/>
 
 
-
-    <label> Which category this articles belongs to:  </label>
-    <%= f.collection_select :category_id, Category.all, :id, :name, prompt: "Select Category" %><br/>
-    
-    <%= f.submit %>
+  <label for="article_feature_image_url"> Choose Image</label>
+  <%= f.file_field :feature_image_url %>  <span id="imageError"></span> <br/><br/>
   
+  <%= f.submit "Submit", id: "articleSubmit" %>
+
+
+  <% else %>  
+    <p> You must sign in inorder to post an article </p>
   <% end %>
+
+<% end %>
+
+<script>
+  var formHandle = document.getElementById('articleForm');
+  var categoryHandle = document.getElementById('article_category_id');
+  var titleHandle = document.getElementById('article_title');
+  var bodyHandle = document.getElementById('article_body');
+  var dateHandle = document.getElementById('article_publish_date');
+  var imageHandle = document.getElementById('article_feature_image_url');
+  var submitHandle = document.getElementById('articleSubmit');
+
+  var categoryErrorHandle = document.getElementById('categoryError');
+  var titleErrorHandle = document.getElementById('titleError');
+  var bodyErrorHandle = document.getElementById('bodyError');
+  var imageErrorHandle = document.getElementById('imageError');
+  var dateErrorHandle = document.getElementById('dateError');
+
+
+    var validator = {
+    categoryValid: false,
+    titleValid: false,
+    bodyValid: false,
+    imageValid: false,
+    dateValid: false
+  }
+
+  function categoryValidation(){
+    if (categoryHandle.value === ""){
+      categoryErrorHandle.innerHTML = "Can't be blank";
+    }else{
+      categoryErrorHandle.innerHTML = "";
+    }
+  }
+
+  function titleValidation(){
+    if (titleHandle.value === ""){
+      titleErrorHandle.innerHTML = "Can't be blank";
+    }else{
+      titleErrorHandle.innerHTML = "";
+    }
+  }
+
+  function bodyValidation(){
+    if (bodyHandle.value === ""){
+      bodyErrorHandle.innerHTML = "Can't be blank";
+    }else{
+      bodyErrorHandle.innerHTML = "";
+    }
+  }
+
+  function imageValidation(){
+    if (imageHandle.value === ""){
+      imageErrorHandle.innerHTML = "Can't be blank";
+    }else{
+      imageErrorHandle.innerHTML = "";
+    }
+  }
+
+  function dateValidation(){
+    if(dateHandle.value === ""){
+      dateErrorHandle.innerHTML = "Can't be blank";
+    }else{
+      dateErrorHandle.innerHTML = "";
+    }
+  }
+
+  formHandle.addEventListener('submit',function(e){
+    console.log("hello");
+    categoryValidation();
+    titleValidation();
+    bodyValidation();
+    imageValidation();
+    dateValidation();
+    if(Object.values(validator).includes(false)){
+      e.preventDefault();
+      setTimeout(function(){
+        submitHandle.disabled = false;
+      },100);
+    }else{
+
+    }
+  },false);
+
+
+</script>

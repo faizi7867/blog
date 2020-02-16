@@ -1,16 +1,68 @@
-<h1>Aricle show page</h1>
+<h1> Article Show Page </h1>
+<%= image_tag(@article.feature_image_url.url, style: 'height:150px;width:260px;') if @article.feature_image_url %><br/>
+<b> Title: </b> <%= @article.title %> <br/>
+<b> By : </> <%= @article.user.username %><br/>
+<b> Body: </b> <%= @article.body %><br/>
+<b> Publish date: </b> <%= @article.publish_date %><br/>
+<b> Is Published: </b> 
+  <% if @article.is_published %>
+    It is published
+  <% else %>
+    It is not published
+  <% end %><br/>
+<b> Category: </b>  <%= link_to @article.category.name, category_path(@article.category_id) %><br/>
 
-<%= 'title' %><%= ' - ' %>  <%= @article.title %><br/>
-<%= 'By' %><%= ' - ' %>  <%= @article.user.email %><br/>
-<%= 'body' %><%= ' - ' %>  <%= @article.body %><br/>
-<%= 'publish_date' %><%= ' - ' %>  <%= @article.publish_date %><br/>
-<%= 'feature_image_url' %><%= ' - ' %>  <%= @article.feature_image_url %><br/>
-<%= 'is_published' %><%= ' - ' %>  <%= @article.is_published %><br/>
-<%= 'category' %><%= ' - ' %>  <%= link_to @article.category.name , category_path(@article.category.id) %> <br/>
-<% if user_signed_in? && @article.user == current_user %>
-  <%= link_to "Delete", @article , method: :delete, data: { confirm: "sure?" } %>
-  <%= link_to 'edit', edit_article_path %>
-<% end %><br/>
-<%= link_to 'back', articles_path %>
+  <% if user_signed_in? and (can? :manage, @article or current_user.id == @article.user_id) %>
+    <%= link_to "edit", article_edit_path(@article.id) %>
+    <%= link_to "Delete", @article , method: :delete, data: { confirm: "sure?" } %><br/><br/> <br/>
+  <% end %>
+
+<h3> Comments </h3>
+
+<% Postcomment.where(:article_id => @article.id).each do |comment| %>
+   <b> <%= comment.user.username %>  </b> : <%= comment.body %><br/>
+  <% if comment.user_id == current_user.id  or @article.user_id == current_user.id or can? :manage, comment or can? :edit, comment%>
+    <%= link_to 'edit', postcomment_edit_path(comment.id)%>
+    <%= link_to "Delete", comment , method: :delete, data: { confirm: "sure?" } %><br/>
+  <% end %>
+  <br/>
+<% end %>
 
 
+<%= form_for Postcomment.new, :html => {:class => "form", :id => "articleForm"} do |f| %>
+
+  <% if user_signed_in? %>
+
+
+    <%= f.text_area :body %> <span id="bodyError"></span> <br/>
+
+    <%= f.submit "Post Comment", id: "articleSubmit" %><br/>
+
+  <% end %>
+  </div>
+
+<% end %>
+
+<script>
+  var comment = document.getElementById('postcomment_body');
+  var formHandle = document.getElementById('articleForm');
+  var submitHandle = document.getElementById('articleSubmit');
+
+  var bodyErrorHandle = document.getElementById('bodyError');
+
+  formHandle.addEventListener('submit',function(e){
+
+
+    if (comment.value === "") {
+      bodyErrorHandle.innerHTML = "This field cannot be left empty";
+      e.preventDefault();
+    }else{
+      bodyErrorHandle.innerHTML = "";
+    }
+    setTimeout(function(){
+        submitHandle.disabled = false;
+      },100);
+
+  },true);
+
+</script>

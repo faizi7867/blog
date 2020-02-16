@@ -1,6 +1,15 @@
-<h1> category show page</h1>
-<%=  @category.name %> <%= '(' %> <%= link_to @category.articles.count , articles_path  %> <%= ')' %> <br/> 
-<%=  link_to 'back', categories_path %>
-<%=  link_to 'edit', edit_category_path %>
+<h1> Article show page  </h1>
+  <% if @articles.empty? or @articles.nil? %>
+    <b> No articles present for this ID </b>
+  <% else %>
+    <b> <%= Category.find(@articles.first.category_id).name %> </b> <br/>
+      <% @articles.each_with_index do |article,index| %>
+      <%= index+1 %>) 
+      <b> Name</b> = <%= article.title %><br/>
+      <b> By</b> = <%= article.user.username %><br/> 
+      <b> Description</b> = <%= article.body %><br/>
 
-<%= link_to "Delete", @category , method: :delete, data: { confirm: "sure?" } %><br/>
+      <%= link_to 'Read This Article', article_path(article.id)%><br/>
+    <% end %>
+    <%#= link_to 'Add Article',article_new_path %>
+  <% end %>
