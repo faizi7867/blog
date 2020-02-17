@@ -8,9 +8,7 @@ class PostcommentsController < ApplicationController
   end
 
   def create
-    # binding.pry
     @postcomments = Postcomment.new
-    @postcomments.title = params['postcomment']['title']
     @postcomments.body = params['postcomment']['body']
     @postcomments.article_id = params['postcomment']['article_id']
     @postcomments.user_id = current_user.id

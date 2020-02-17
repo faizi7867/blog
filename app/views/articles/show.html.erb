@@ -33,6 +33,7 @@
 
   <% if user_signed_in? %>
 
+    <%= f.hidden_field :article_id, value: @article.id %>
 
     <%= f.text_area :body %> <span id="bodyError"></span> <br/>
 
