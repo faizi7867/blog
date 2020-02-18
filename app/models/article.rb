@@ -1,6 +1,6 @@
 class Article < ApplicationRecord
-  # extend FriendlyId
-  # friendly_id :title, use: :slugged
+  extend FriendlyId
+  friendly_id :title, use: :slugged
   mount_uploader :feature_image_url, CoverUploader
   validates_presence_of :title,:body,:category_id,:publish_date,:feature_image_url
   

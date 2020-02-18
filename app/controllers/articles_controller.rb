@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
   
   def show
     @postcomment = Postcomment.new
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
   end
 
   def new
@@ -26,6 +26,8 @@ class ArticlesController < ApplicationController
     end
     @article.user_id = current_user.id
     if @article.save
+      @email = 'sheikhfaisal689@gmail.com'
+      NotificationMailer.welcome_email(@email).deliver!
       if not current_user.permissions.exists?(role_id:2) and not current_user.permissions.exists?(role_id:1)
         @permission = Permission.new
         @permission.user_id = current_user.id
@@ -41,11 +43,11 @@ class ArticlesController < ApplicationController
   end
 
   def edit
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
   end
 
   def update
-    @article = Article.find(params[:id])
+    @article = Article.friendly.find(params[:id])
     @article.title = params['article']['title']
     @article.body = params['article']['body']
     @article.category_id = params['article']['category_id']
@@ -66,7 +68,7 @@ class ArticlesController < ApplicationController
   end
 
   def destroy
-    @article=Article.find(params[:id])
+    @article=Article.friendly.find(params[:id])
     if @article.destroy
       redirect_to articles_path
     end
