@@ -10,7 +10,7 @@ gem 'friendly_id', '~> 5.2.4'
 gem 'devise'
 gem 'jbuilder', '~> 2.5'
 gem 'pry'
-gem 'puma', '~> 3.11'
+gem 'puma', '~> 3.12'
 gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 
 gem 'hirb'
